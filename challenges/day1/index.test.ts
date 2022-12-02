@@ -32,4 +32,23 @@ describe("Day 1", () => {
       expect(result).toBe(66719);
     });
   });
+
+  describe("Part 2", () => {
+    it("should return the sum of the top 3 elves", () => {
+      const input = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+        [1, 1, 1],
+      ];
+      const result = highestCalories(input, true);
+      expect(result).toBe(45);
+    });
+
+    it("should return the answer from the challengeInput file", () => {
+      const input = convertFileToInput(__dirname + "/challengeInput.txt");
+      const result = highestCalories(input, true);
+      expect(result).toBe(198551);
+    });
+  });
 });

@@ -18,12 +18,17 @@ export const convertFileToInput = (file: string) => {
   return allElves;
 };
 
-const highestCalories = (elves: number[][]) => {
+const highestCalories = (elves: number[][], part2?: boolean) => {
   let calorieSum: number[] = [];
   elves.forEach((elf) => {
     calorieSum.push(elf.reduce((a, b) => a + b, 0));
   });
-  return Math.max(...calorieSum);
+  if (!part2) {
+    return Math.max(...calorieSum);
+  } else {
+    calorieSum.sort((a, b) => b - a);
+    return calorieSum[0] + calorieSum[1] + calorieSum[2];
+  }
 };
 
 export default highestCalories;
