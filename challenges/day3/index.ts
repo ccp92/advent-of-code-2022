@@ -1,11 +1,29 @@
-const backpackSorter = (backpacks: string[]) => {
+const backpackSorter = (backpacks: string[], day2?: boolean) => {
   let priorities = 0;
 
-  backpacks.forEach((backpack) => {
-    const compartments = compartmentSplit(backpack);
-    const matchedLetter = compareCompartments(compartments[0], compartments[1]);
-    priorities += priorityValue(matchedLetter);
-  });
+  if (!day2) {
+    backpacks.forEach((backpack) => {
+      const compartments = compartmentSplit(backpack);
+      const matchedLetter = compareCompartments(
+        compartments[0],
+        compartments[1]
+      );
+      priorities += priorityValue(matchedLetter);
+    });
+  } else if (day2) {
+    const backpackGroups = [],
+      size = 3;
+    while (backpacks.length > 0) backpackGroups.push(backpacks.splice(0, size));
+    backpackGroups.forEach((backpackGroup: string[]) => {
+      const matchedLetter = compareCompartments(
+        backpackGroup[0],
+        backpackGroup[1],
+        backpackGroup[2]
+      );
+
+      priorities += priorityValue(matchedLetter);
+    });
+  }
 
   return priorities;
 };
@@ -19,17 +37,28 @@ export const compartmentSplit = (backpack: string) => {
 
 export const compareCompartments = (
   firstCompartment: string,
-  secondCompartment: string
+  secondCompartment: string,
+  thirdCompartment?: string
 ) => {
   const firstCompartmentLetters = firstCompartment.split("");
   const secondCompartmentLetters = secondCompartment.split("");
   let match = "";
 
-  firstCompartmentLetters.forEach((letter) => {
-    if (secondCompartmentLetters.includes(letter)) {
-      match = letter;
-    }
-  });
+  if (!thirdCompartment) {
+    firstCompartmentLetters.forEach((letter) => {
+      if (secondCompartmentLetters.includes(letter)) {
+        match = letter;
+      }
+    });
+  } else {
+    firstCompartmentLetters.forEach((letter) => {
+      if (secondCompartmentLetters.includes(letter)) {
+        if (thirdCompartment?.includes(letter)) {
+          match = letter;
+        }
+      }
+    });
+  }
 
   return match;
 };
